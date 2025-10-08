@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Running embryo classification with Claude...
 echo.
 echo Make sure you have set ANTHROPIC_API_KEY environment variable!
@@ -16,7 +18,7 @@ echo.
 echo Running classification (sampling every 10 minutes)...
 echo This will analyze frames and save results to embryo_classifications.json
 echo.
-python3 classify_embryo_stages.py --frames-dir 1_png --interval 10
+python3 src\classify_embryo_stages.py --frames-dir 1_png --interval 10
 
 echo.
 echo Done! Results saved to embryo_classifications.json

@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Visualizing Claude VLM classification results...
 echo.
 
@@ -9,7 +11,7 @@ python3 -m pip install matplotlib
 
 echo.
 echo Creating annotated video and frames...
-python3 visualize_classifications.py
+python3 src\visualize_classifications.py
 
 echo.
 echo Done! Check the following outputs:

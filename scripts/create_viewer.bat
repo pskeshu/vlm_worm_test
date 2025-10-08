@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Creating interactive HTML viewer for embryo classifications...
 echo.
 
@@ -8,7 +10,7 @@ echo Generating viewer...
 echo This will create a standalone HTML file with all images embedded.
 echo The file will be large (~100-200 MB) but completely self-contained.
 echo.
-python3 create_interactive_viewer.py
+python3 src\create_interactive_viewer.py
 
 echo.
 echo Done! Open embryo_viewer.html in your web browser.

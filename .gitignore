@@ -5,10 +5,12 @@ nih-ls/
 # All generated outputs - created by running the scripts
 1_png/
 2_classified_png/
+outputs/
 *.json
 *.html
 *.mp4
 *.png
+!requirements.txt
 
 # Python
 venv/

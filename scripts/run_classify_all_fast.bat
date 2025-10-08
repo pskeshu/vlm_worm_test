@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Classifying ALL frames CONCURRENTLY with Claude VLM (FAST MODE)...
 echo.
 echo This will process multiple frames in parallel for much faster classification!
@@ -20,12 +22,12 @@ echo.
 echo Running CONCURRENT classification on all frames...
 echo Results will be saved to embryo_classifications_all.json
 echo.
-python3 classify_all_frames_concurrent.py --max-concurrent 5
+python3 src\classify_all_frames_concurrent.py --max-concurrent 5
 
 echo.
 echo Done! Results saved to embryo_classifications_all.json
 echo.
 echo To visualize the results, run:
-echo   python3 visualize_classifications.py --classifications embryo_classifications_all.json
+echo   python3 src\visualize_classifications.py --classifications embryo_classifications_all.json
 echo.
 pause

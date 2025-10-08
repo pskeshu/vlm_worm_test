@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Starting HTTP server for embryo viewer...
 echo.
 echo The viewer will be available at:

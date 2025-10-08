@@ -27,20 +27,35 @@ def parse_classification_response(response_text):
         'reasoning': ''
     }
 
-    # Try to extract stage
-    stage_match = re.search(r'\*\*Developmental Stage\*\*:?\s*(.+?)(?:\n|$)', response_text, re.IGNORECASE)
+    # Try to extract stage - supports multiple formats
+    # Format 1: ## 1. Developmental Stage: **2-cell**
+    stage_match = re.search(r'##?\s*\d*\.?\s*Developmental Stage:?\s*\*\*(.+?)\*\*', response_text, re.IGNORECASE)
+    if not stage_match:
+        # Format 2: **Developmental Stage**: 2-cell
+        stage_match = re.search(r'\*\*Developmental Stage\*\*:?\s*(.+?)(?:\n|$)', response_text, re.IGNORECASE)
     if stage_match:
         result['stage'] = stage_match.group(1).strip()
 
-    # Try to extract confidence
-    conf_match = re.search(r'\*\*Confidence\*\*:?\s*([0-9.]+)', response_text, re.IGNORECASE)
+    # Try to extract confidence - supports multiple formats
+    # Format 1: ## 2. Confidence: **0.95**
+    conf_match = re.search(r'##?\s*\d*\.?\s*Confidence:?\s*\*\*([0-9.]+)\*\*', response_text, re.IGNORECASE)
+    if not conf_match:
+        # Format 2: **Confidence**: 0.95
+        conf_match = re.search(r'\*\*Confidence\*\*:?\s*([0-9.]+)', response_text, re.IGNORECASE)
     if conf_match:
         result['confidence'] = float(conf_match.group(1))
 
-    # Try to extract reasoning section
-    reasoning_match = re.search(r'\*\*Reasoning\*\*:?\s*\n(.+?)(?:\n\*\*|$)', response_text, re.IGNORECASE | re.DOTALL)
+    # Try to extract reasoning section - supports multiple formats
+    # Format 1: ## 3. Reasoning:
+    reasoning_match = re.search(r'##?\s*\d*\.?\s*Reasoning:?\s*\n(.+?)(?:\n##?\s*\d|$)', response_text, re.IGNORECASE | re.DOTALL)
+    if not reasoning_match:
+        # Format 2: **Reasoning**:
+        reasoning_match = re.search(r'\*\*Reasoning\*\*:?\s*\n(.+?)(?:\n\*\*|$)', response_text, re.IGNORECASE | re.DOTALL)
+
     if reasoning_match:
-        result['reasoning'] = reasoning_match.group(1).strip()
+        # Get first 200 chars of reasoning
+        reasoning_full = reasoning_match.group(1).strip()
+        result['reasoning'] = reasoning_full[:200] + '...' if len(reasoning_full) > 200 else reasoning_full
     else:
         # Fall back to full response
         result['reasoning'] = response_text[:200] + '...' if len(response_text) > 200 else response_text

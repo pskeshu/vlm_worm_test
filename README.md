@@ -19,8 +19,8 @@ unzip nih_ls.zip
 ### 2. Generate Annotated Frames
 
 ```bash
-setup_and_run.bat  # Creates venv, installs deps, generates video
-python3 make_max_projection_frames.py  # Generate PNG frames
+scripts\setup_and_run.bat  # Creates venv, installs deps, generates video
+python3 src\make_max_projection_frames.py  # Generate PNG frames
 ```
 
 ### 3. Classify with Claude
@@ -33,17 +33,17 @@ set ANTHROPIC_API_KEY=sk-ant-your-key-here
 Run classification:
 ```bash
 # All 400 frames (~$3.60, ~2 min with concurrency)
-run_classify_all_fast.bat
+scripts\run_classify_all_fast.bat
 
 # Or sample every 10 minutes (~$0.30)
-run_classification.bat
+scripts\run_classification.bat
 ```
 
 ### 4. Visualize Results
 
 ```bash
-python3 create_interactive_viewer.py --no-embed-images
-serve_viewer_multi.bat
+python3 src\create_interactive_viewer.py --no-embed-images
+scripts\serve_viewer_multi.bat
 ```
 
 Open: http://localhost:8000/embryo_viewer_light.html
@@ -58,7 +58,7 @@ Open: http://localhost:8000/embryo_viewer_light.html
 ✅ **Prompt Inspector** - See exact prompts sent to Claude
 ✅ **Multi-user HTTP Server** - Share with team
 
-## Scripts
+## Python Scripts (src/)
 
 | Script | Description |
 |--------|-------------|
@@ -71,7 +71,7 @@ Open: http://localhost:8000/embryo_viewer_light.html
 | `create_interactive_viewer.py` | Generate HTML viewer |
 | `serve_viewer_multithreaded.py` | HTTP server for viewer |
 
-## Batch Files
+## Batch Scripts (scripts/)
 
 | File | Purpose |
 |------|---------|
@@ -92,24 +92,49 @@ Open: http://localhost:8000/embryo_viewer_light.html
 | 200    | 2 min    | $1.80 | ~2 min |
 | 400    | All      | $3.60 | ~4 min |
 
-## Output Files
+## Project Structure
 
 ```
 vlm_worm_test/
+├── src/                             # Python source code
+│   ├── make_max_projection_video.py
+│   ├── make_max_projection_frames.py
+│   ├── classify_embryo_stages.py
+│   ├── classify_all_frames.py
+│   ├── classify_all_frames_concurrent.py
+│   ├── visualize_classifications.py
+│   ├── create_interactive_viewer.py
+│   └── serve_viewer_multithreaded.py
+├── scripts/                         # Batch files for Windows
+│   ├── setup_and_run.bat
+│   ├── run_classification.bat
+│   ├── run_classify_all.bat
+│   ├── run_classify_all_fast.bat
+│   ├── run_visualization.bat
+│   ├── create_viewer.bat
+│   ├── serve_viewer.bat
+│   └── serve_viewer_multi.bat
+├── docs/                            # Documentation
+│   ├── QUICK_START.md
+│   ├── README_CLASSIFICATION.md
+│   └── PROMPTS.md
+├── outputs/                         # Generated outputs
 ├── 1_png/                           # Generated annotated frames (400 PNGs)
 ├── 2_classified_png/                # Frames with classification info
 ├── embryo1_max_projection.mp4       # Basic annotated video
 ├── embryo_classifications_all.json  # Classification results
 ├── embryo_viewer_light.html         # Interactive viewer (2.2 MB)
 ├── classification_summary.png       # Timeline plot
-└── nih-ls/                          # Downloaded dataset (27 GB)
+├── nih-ls/                          # Downloaded dataset (27 GB)
+├── requirements.txt                 # Python dependencies
+└── README.md                        # This file
 ```
 
 ## Documentation
 
-- **[QUICK_START.md](QUICK_START.md)** - Quick reference guide
-- **[README_CLASSIFICATION.md](README_CLASSIFICATION.md)** - Full documentation
-- **[PROMPTS.md](PROMPTS.md)** - Exact prompts used
+- **[docs/QUICK_START.md](docs/QUICK_START.md)** - Quick reference guide
+- **[docs/README_CLASSIFICATION.md](docs/README_CLASSIFICATION.md)** - Full documentation
+- **[docs/PROMPTS.md](docs/PROMPTS.md)** - Exact prompts used
 
 ## Requirements
 
@@ -124,7 +149,7 @@ pillow
 matplotlib
 ```
 
-Installed automatically by `setup_and_run.bat`
+Install with: `pip install -r requirements.txt`
 
 ## Dataset Citation
 

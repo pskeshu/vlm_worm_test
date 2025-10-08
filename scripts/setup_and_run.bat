@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Creating virtual environment...
 python3 -m venv venv
 
@@ -11,7 +13,7 @@ python3 -m pip install numpy tifffile opencv-python tqdm pandas
 echo.
 echo Setup complete! Running script...
 echo.
-python3 make_max_projection_video.py
+python3 src\make_max_projection_video.py
 
 echo.
 echo Done! Video saved as embryo1_max_projection.mp4

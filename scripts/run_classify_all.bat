@@ -1,4 +1,6 @@
 @echo off
+cd /d "%~dp0\.."
+
 echo Classifying ALL frames with Claude VLM...
 echo.
 echo This will analyze ALL 400 frames (not just sampled).
@@ -16,12 +18,12 @@ echo Running classification on all frames...
 echo Results will be saved to embryo_classifications_all.json
 echo You can interrupt and resume at any time (progress is saved after each frame).
 echo.
-python3 classify_all_frames.py
+python3 src\classify_all_frames.py
 
 echo.
 echo Done! Results saved to embryo_classifications_all.json
 echo.
 echo To visualize the results, run:
-echo   python3 visualize_classifications.py --classifications embryo_classifications_all.json --output-video embryo_all_classifications.mp4
+echo   python3 src\visualize_classifications.py --classifications embryo_classifications_all.json --output-video embryo_all_classifications.mp4
 echo.
 pause
